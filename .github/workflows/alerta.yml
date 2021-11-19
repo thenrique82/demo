@@ -31,6 +31,6 @@ jobs:
       uses: fateyan/action-discord-notifier@v1.2.0
       with:
         # A full discord webhook url
-        webhook: https://discord.com/api/webhooks/911042807601446923/c-ijBTQJR00cF6pyQXpOwsxtLN6kzGo__AITCXIjrQq2eEF_OIKmGFGmPiVq1j65-pyQ 
+        webhook: ${{ secrets.DISCORD_WEBHOOK }} 
         # Message title
         message-title: # optional
