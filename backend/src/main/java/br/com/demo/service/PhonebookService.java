@@ -31,7 +31,15 @@ public class PhonebookService{
         
         this.persistence = persistence;
     }
-    
+/**
+    public void teste(){
+        String test = null;
+
+        if(test.equals("Teste do sonar para bug")){
+            System.out.println(1);            
+        }
+    }
+ */    
     // List all data.
     public List<Phonebook> list(){
         return persistence.findAll();
