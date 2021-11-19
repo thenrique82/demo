@@ -1,9 +1,9 @@
-name: Develop
+name: Discord
 
 on:
   push:
     branches:
-      - "develop"
+      - "discord"
     paths-ignore:
       - "LICENSE"
       - "*.md"
@@ -17,9 +17,6 @@ jobs:
       with:
         fetch-depth: 0
 
-    - name: Set up Snyk client
-      run: wget https://github.com/snyk/snyk/releases/download/v1.530.0/snyk-linux; mv ./snyk-linux ./snyk; chmod +x ./snyk;
-
     - name: Set up Compile, Build and Test environment
       uses: actions/setup-java@v1
       with:
@@ -27,22 +24,13 @@ jobs:
 
     - name: Compile, Build and Test
       run: ./build.sh
-      
-    - name: Code Analysis - SAST (White-box testing)
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      run: ./codeAnalysis.sh
 
-    - name: Libraries Analysis - SAST (White-box testing)
-      env:
-        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-      run: ./librariesAnalysis.sh
-
-    - name: Packaging
-      run: ./package.sh
-
-    - name: Package Analysis - SAST (White-box testing)
-      env:
-        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-      run: ./packageAnalysis.sh
+    - name: discord-action
+    # You may pin to the exact commit or the version.
+    # uses: sebastianpopp/discord-action@ba18c5aaa871acf97620c349fd76a187550f12eb
+    uses: sebastianpopp/discord-action@v1.0
+    with:
+      # Discord webhook URL
+     webhook: https://discord.com/api/webhooks/911042807601446923/c-ijBTQJR00cF6pyQXpOwsxtLN6kzGo__AITCXIjrQq2eEF_OIKmGFGmPiVq1j65-pyQ 
+     # Message to be sent
+     message: Teste
