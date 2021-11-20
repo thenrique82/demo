@@ -39,7 +39,12 @@ public class PhonebookService{
             System.out.println(1);            
         }
     }
- */    
+*/
+/**
+ * Security HotSpot
+  
+    int r = (int)(Math.random() * 1000);
+ */     
     // List all data.
     public List<Phonebook> list(){
         return persistence.findAll();
