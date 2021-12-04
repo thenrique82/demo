@@ -8,7 +8,11 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
  *
  * @author fvilarinho
  * @version 1.0.0
+<<<<<<< HEAD
  * Teste da pipeline.
+=======
+ * pipeline 1.0
+>>>>>>> alerta
  */
 public class ServletInitializer extends SpringBootServletInitializer {
 	@Override
