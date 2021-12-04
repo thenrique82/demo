@@ -27,11 +27,7 @@ if [ -z "$PROVISIONED" ]; then
   $TERRAFORM_CMD apply -auto-approve \
                        -var "token=$LINODE_TOKEN" \
                        -var "public_key=$LINODE_PUBLIC_KEY" \
-                       -var "private_key=$LINODE_PRIVATE_KEY" \
-                       -var "email=$CLOUDFLARE_EMAIL" \
-                       -var "api_key=$CLOUDFLARE_API_KEY" \
-                       -var "zone_id=$CLOUDFLARE_ZONE_ID" \
-                       -var "zone_name=$CLOUDFLARE_ZONE_NAME"
+                       -var "private_key=$LINODE_PRIVATE_KEY"
 
   CLUSTER_MANAGER_IP=`cat cluster-manager-ip`
 
@@ -56,7 +52,7 @@ else
   if [ ! -f "./.kubeconfig" ]; then
     scp -i ./.id_rsa -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null root@cluster-manager.${CLOUDFLARE_ZONE_NAME}:/etc/rancher/k3s/k3s.yaml ./.kubeconfig
 
-    sed -i -e 's|127.0.0.1|'"cluster-manager.$CLOUDFLARE_ZONE_NAME"'|g' ./.kubeconfig
+    sed -i -e 's|127.0.0.1|'"cluster-manager'|g' ./.kubeconfig
 
     rm -f ./.kubeconfig-e
   fi
