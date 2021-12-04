@@ -15,10 +15,10 @@ provider "linode" {
   token = var.token
 }
 
-provider "cloudflare" {
-  email   = var.email
-  api_key = var.api_key
-}
+#provider "cloudflare" {
+#  email   = var.email
+#  api_key = var.api_key
+#}
 
 resource "linode_instance" "cluster-manager" {
   image           = "linode/debian10"
@@ -48,13 +48,13 @@ resource "linode_instance" "cluster-manager" {
   }
 }
 
-resource "cloudflare_record" "cluster-manager" {
-  zone_id = var.zone_id
-  name = "cluster-manager"
-  value = linode_instance.cluster-manager.ip_address
-  type = "A"
-  depends_on = [ linode_instance.cluster-manager ]
-}
+#resource "cloudflare_record" "cluster-manager" {
+#  zone_id = var.zone_id
+#  name = "cluster-manager"
+#  value = linode_instance.cluster-manager.ip_address
+#  type = "A"
+#  depends_on = [ linode_instance.cluster-manager ]
+#}
 
 resource "linode_instance" "cluster-worker" {
   image           = "linode/debian10"
@@ -63,7 +63,7 @@ resource "linode_instance" "cluster-worker" {
   type            = "g6-standard-1"
   authorized_keys = [ var.public_key ]
   root_pass       = random_string.password.result
-  depends_on = [ cloudflare_record.cluster-manager ]
+  depends_on = [ linode_instance.cluster-manager ]
 
   provisioner "remote-exec" {
     inline = [
@@ -71,7 +71,7 @@ resource "linode_instance" "cluster-worker" {
       "apt -y update",
       "apt -y install curl wget htop",
       "export K3S_TOKEN=${var.token}",
-      "export K3S_URL=https://cluster-manager.${var.zone_name}:6443",
+      "export K3S_URL=https://${linode_instance.cluster-manager.ip_address}:6443",
       "curl -sfL https://get.k3s.io | sh -"
     ]
 
@@ -85,13 +85,13 @@ resource "linode_instance" "cluster-worker" {
   }
 }
 
-resource "cloudflare_record" "cluster-worker" {
-  zone_id = var.zone_id
-  name = "cluster-worker"
-  value = linode_instance.cluster-worker.ip_address
-  type = "A"
-  depends_on = [ linode_instance.cluster-worker ]
-}
+#resource "cloudflare_record" "cluster-worker" {
+#  zone_id = var.zone_id
+#  name = "cluster-worker"
+#  value = linode_instance.cluster-worker.ip_address
+#  type = "A"
+#  depends_on = [ linode_instance.cluster-worker ]
+#}
 
 resource "local_file" "cluster-manager-ip" {
   content  = linode_instance.cluster-manager.ip_address

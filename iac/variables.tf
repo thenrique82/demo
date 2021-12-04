@@ -1,10 +1,10 @@
 variable "token" {}
 variable "public_key" {}
 variable "private_key" {}
-variable "email" {}
-variable "api_key" {}
-variable "zone_id" {}
-variable "zone_name" {}
+#variable "email" {}
+#variable "api_key" {}
+#variable "zone_id" {}
+#variable "zone_name" {}
 
 resource "random_string" "password" {
   length = 32
