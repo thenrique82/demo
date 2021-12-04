@@ -52,7 +52,7 @@ else
   if [ ! -f "./.kubeconfig" ]; then
     scp -i ./.id_rsa -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null root@cluster-manager.${CLOUDFLARE_ZONE_NAME}:/etc/rancher/k3s/k3s.yaml ./.kubeconfig
 
-    sed -i -e 's|127.0.0.1|'"cluster-manager'|g' ./.kubeconfig
+    sed -i -e 's|127.0.0.1|'"cluster-manager"'|g' ./.kubeconfig
 
     rm -f ./.kubeconfig-e
   fi
